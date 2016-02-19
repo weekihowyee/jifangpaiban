@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
 #define MAXPRESS 3
 #define OK 1
@@ -52,16 +53,70 @@ int *lesson_sour(int i)
     }
 }
 
+void  read_file_test1(int x, int (*arr_t)[5])
+{
+    int a[7][5];
+    int i,j,k;
+    FILE* fp;
+    char ch,filename[30],fr[20],ba[10]={".dat"};
+    itoa(x,filename,10);
+    strcat(filename,ba);
+     fp=fopen(filename,"r");
+    if(fp==NULL)
+        exit(0);
+    for(i=0;i<7;i++)
+	{
+		for(j=0;j<5;j++)
+		{
+			fscanf(fp,"%d",&arr_t[i][j]);
+		}
+		fscanf(fp,"\n");
+	}
+    fclose(fp);
+    
+}
+
+Status read_file_test(int x,int (*arr_t)[5])
+{
+    int a[7][5];
+    int i,j,k;
+	 char ch,filename[100],ba[10]={".dat"};
+	  FILE* fp;
+    /*************************************************/
+    /*************add code to get name****************/
+    /*************************************************/
+
+    itoa(x,filename,10);
+    strcat(filename,ba);
+
+	 fp=fopen(filename,"r");
+
+    if(fp==NULL)
+        return ERROR;
+    for(i=0;i<7;i++)
+	{
+		for(j=0;j<5;j++)
+		{
+			fscanf(fp,"%d",&arr_t[i][j]);
+		}
+		fscanf(fp,"\n");
+	}
+    fclose(fp);
+    return OK;
+}
+
 Status init_test(Linklist L)
 {
-    int (*arr_t)[5],i,j,k;
+    int (*arr_t)[5],s[7][5],i,j,k;
     Linklist p1,p2;
     p2=L;
-    for(i=0;i<3;i++)  //test mode
+    for(i=1;;i++)  //test mode
     {
        p1=(Linklist) malloc(LEN);
-       arr_t=lesson_sour(i+1);
-       p1->worknum=i+1;
+	   arr_t=s;
+       if(read_file_test(i,arr_t)==ERROR)
+        break;
+       p1->worknum=i;
        p1->press=0;
         for(j=0;j<7;j++)
             for(k=0;k<5;k++)
@@ -84,6 +139,25 @@ Status init_test(Linklist L)
     p2->Next=NULL;
 
     return OK;
+}
+
+Status Correct_Init(Linklist L)
+{
+	Linklist p;
+		int flag=1;
+	p=L->Next;
+
+	while(flag)
+	{
+		if(p->Next->Next==NULL)
+		{
+			p->Next=NULL;
+			flag=0;
+			break;
+		}
+		p=p->Next;
+	}
+	return OK;
 }
 
 Status Show_Link_lesson(Linklist L)
@@ -182,6 +256,7 @@ Status pb_print(int (*p)[5])
             }
              printf("\n");
          }
+	return OK;
 }
 
 void main()
@@ -191,11 +266,23 @@ void main()
     int pb[7][5];
     L=(Linklist)malloc(LEN);
     init_test(L);
+	Correct_Init(L);
     Show_Link_lesson(L);
     for(j=0;j<7;j++)
             for(k=0;k<3;k++)
                 pb_ful_test(pb,L,j,k);
     pb_print(pb);
+    /*int (*att)[5],j,k,s[7][5];
+    att=s;
+    read_file_test1(1,att);
+    for(j=0;j<7;j++)
+         {
+            for(k=0;k<5;k++)
+            {
+                printf("%d\t",att[j][k]);
+            }
+             printf("\n");
+         }*/
 }
 
 

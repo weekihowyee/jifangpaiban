@@ -22,10 +22,10 @@ typedef  struct Node
 
 typedef struct Node *Linklist;
 
-int l1[7][5]={{1,0,1,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1}};
-int l2[7][5]={{1,0,1,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1}};
-int l3[7][5]={{1,0,1,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1}};
-
+int l1[7][5]={{1,0,1,0,1},{1,1,0,1,1},{0,0,0,0,1},{0,1,1,0,1},{0,1,0,1,1},{0,1,1,0,1},{0,1,0,1,1}};
+int l2[7][5]={{1,0,1,0,0},{0,1,0,1,1},{1,1,0,0,1},{1,0,0,0,1},{0,1,1,0,1},{0,1,1,0,1},{1,1,0,0,1}};
+//int l3[7][5]={{1,0,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1},{0,1,0,0,1}};
+int l3[7][5]={{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
 int *lesson_sour(int i)
 {
     int (*arr_t)[5];
@@ -93,7 +93,7 @@ Status Show_Link_lesson(Linklist L)
     p=L->Next;
     while(p!=NULL)
     {
-        printf("\n");
+        printf("%d:\n",p->worknum);
          for(j=0;j<7;j++)
          {
             for(k=0;k<5;k++)
@@ -110,23 +110,24 @@ Status Show_Link_lesson(Linklist L)
 
 Status pb_test(int (*p)[5],Linklist L,int i,int j)
 {
-    int flag=1;
+    int flag=1,x=0;
     Linklist t;
     t=L->Next;
-    while(flag)
+    while(t!=NULL)
     {
-        if(t->lesson_table[i][j]==0 && t->tmp[i]==0 && t->press<=MAXPRESS)
+        if(t->lesson_table[i][j]==0 && t->tmp[i]==0 && t->press<MAXPRESS)
         {
             *(*(p+i)+j)=t->worknum;
             t->work_table[i][j]=1;
             t->tmp[i]=1;
             t->press++;
-            flag=0;
+			flag=0;
+            break;
         }
         t=t->Next;
-        if(t==NULL)
-            flag=0;
     }
+	if(flag)
+		*(*(p+i)+j)=0;
     return OK;
 }
 

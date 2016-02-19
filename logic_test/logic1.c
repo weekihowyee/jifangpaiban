@@ -131,6 +131,45 @@ Status pb_test(int (*p)[5],Linklist L,int i,int j)
     return OK;
 }
 
+
+Status pb_ful_test(int (*p)[5],Linklist L,int i,int j)
+{
+     int x,y,flag=1;
+     Linklist t;
+     t=L->Next;
+    if(j<2) //daytime
+    {
+        y=(2*j)+1;  //single2
+        x=2*j; //single1
+
+        while(t!=NULL)
+        {
+            if(t->lesson_table[i][x]==0 &&  t->lesson_table[i][y]==0 && t->tmp[i]==0 && t->press<MAXPRESS)
+            {
+                *(*(p+i)+x)=t->worknum;
+                *(*(p+i)+y)=t->worknum;
+                t->work_table[i][x]=1;
+                t->work_table[i][y]=1;
+                t->tmp[i]=1;
+                t->press++;
+                flag=0;
+                break;
+            }
+            t=t->Next;
+        }
+        if(flag)
+        {
+            pb_test(p,L,i,x);
+            pb_test(p,L,i,y);
+        }
+    }
+    if(j==2)
+    {
+        pb_test(p,L,i,2*j);
+    }
+    return OK;
+}
+
 Status pb_print(int (*p)[5])
 {
     int i,k,j;
@@ -154,8 +193,8 @@ void main()
     init_test(L);
     Show_Link_lesson(L);
     for(j=0;j<7;j++)
-            for(k=0;k<5;k++)
-                pb_test(pb,L,j,k);
+            for(k=0;k<3;k++)
+                pb_ful_test(pb,L,j,k);
     pb_print(pb);
 }
 

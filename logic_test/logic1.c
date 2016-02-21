@@ -73,7 +73,7 @@ void  read_file_test1(int x, int (*arr_t)[5])
 		fscanf(fp,"\n");
 	}
     fclose(fp);
-    
+
 }
 
 Status read_file_test(int x,int (*arr_t)[5])
@@ -272,17 +272,6 @@ void main()
             for(k=0;k<3;k++)
                 pb_ful_test(pb,L,j,k);
     pb_print(pb);
-    /*int (*att)[5],j,k,s[7][5];
-    att=s;
-    read_file_test1(1,att);
-    for(j=0;j<7;j++)
-         {
-            for(k=0;k<5;k++)
-            {
-                printf("%d\t",att[j][k]);
-            }
-             printf("\n");
-         }*/
 }
 
 
